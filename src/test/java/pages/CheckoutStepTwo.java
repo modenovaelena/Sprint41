@@ -23,7 +23,7 @@ public class CheckoutStepTwo {
         this.driver = driver;
     }
 
-    public void fillTheFormAndContinue(String date, String period) {
+    public void fillTheFormAndContinue(String period) {
 
         driver.findElement(this.dateSelector).click();
         WebElement dob = driver.findElement(this.randomDay);

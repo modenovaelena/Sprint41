@@ -19,18 +19,17 @@ public class CheckoutTest {
 
     private WebDriver driver;
 
-    String name, surname, address, station, phone, date, period ;
+    String name, surname, address, station, phone, period ;
 
     public static final boolean USE_FIREFOX = true;
 
     public CheckoutTest(String name, String surname, String address,
-                        String station, String phone, String date, String period) {
+                        String station, String phone, String period) {
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.station = station;
         this.phone = phone;
-        this.date = date;
         this.period = period;
     }
 
@@ -38,8 +37,9 @@ public class CheckoutTest {
     public static Object[][] getTestData() {
         return new Object[][] {
                 {"Елена","Петрова", "Гагарина 233",
-                        "Преображенская площадь", "+79127233922",
-                            "26.02.2024", "трое суток"}
+                        "Преображенская площадь", "+79127233922", "трое суток"},
+                {"Денис","Сидоров", "Алмазная 33",
+                        "Преображенская площадь", "+79127233445", "трое суток"}
         };
     }
 
@@ -72,7 +72,7 @@ public class CheckoutTest {
 
 
         CheckoutStepTwo step2 = new CheckoutStepTwo(driver);
-        step2.fillTheFormAndContinue(date, period);
+        step2.fillTheFormAndContinue(period);
         step2.confirmOrder();
 
 
