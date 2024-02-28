@@ -8,8 +8,11 @@ import org.openqa.selenium.WebElement;
 public class HomePage {
     private final WebDriver driver;
 
-    private final String accordionButtonSelectorXPath
+    private final String accordionButtonByQuestionSelectorXPath
             = ".//div[@class='accordion__button' and text() = '%s']";
+
+    private final String accordingPanelByQuestionSelectorXPath
+            = "//div[@class='accordion__button' and text() = '%s']/parent::div/parent::div/div[@class='accordion__panel']";
 
     private final By startCheckoutButtonSelector
             = By.xpath(".//button[text()='Заказать']");
@@ -25,17 +28,24 @@ public class HomePage {
         driver.findElement(By.id("rcc-confirm-button")).click();
     }
 
+    public By getQuestionButtonSelector(String question) {
+        return By.xpath(String.format(accordionButtonByQuestionSelectorXPath,
+                question));
+    }
+
+    public By getQuestionPanelSelector(String question) {
+        return By.xpath(String.format(accordingPanelByQuestionSelectorXPath,
+                question));
+    }
+
     public void clickQuestionByName(String question)
     {
-        By accordionButtonSelector = By.xpath(String.format(accordionButtonSelectorXPath,
-                question));
-
-        WebElement e = driver.findElement(accordionButtonSelector);
+        WebElement e = driver.findElement(this.getQuestionButtonSelector(question));
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", e);
         e.click();
     }
 
-    public void startCheckout() {
-        driver.findElements(startCheckoutButtonSelector).get(0).click();
+    public void startCheckoutUsingButtonIndex(int indx) {
+        driver.findElements(startCheckoutButtonSelector).get(indx).click();
     }
 }

@@ -19,27 +19,29 @@ public class CheckoutTest {
 
     private WebDriver driver;
 
-    String name, surname, address, station, phone, period ;
+    String name, surname, address, station, phone, period;
+    Integer indx;
 
-    public static final boolean USE_FIREFOX = true;
+    public static final boolean USE_FIREFOX = false;
 
     public CheckoutTest(String name, String surname, String address,
-                        String station, String phone, String period) {
+                        String station, String phone, String period, Integer indx) {
         this.name = name;
         this.surname = surname;
         this.address = address;
         this.station = station;
         this.phone = phone;
         this.period = period;
+        this.indx = indx;
     }
 
     @Parameterized.Parameters
     public static Object[][] getTestData() {
         return new Object[][] {
                 {"Елена","Петрова", "Гагарина 233",
-                        "Преображенская площадь", "+79127233922", "трое суток"},
+                        "Преображенская площадь", "+79127233922", "трое суток", 0},
                 {"Денис","Сидоров", "Алмазная 33",
-                        "Преображенская площадь", "+79127233445", "трое суток"}
+                        "Преображенская площадь", "+79127233445", "трое суток", 1}
         };
     }
 
@@ -48,7 +50,7 @@ public class CheckoutTest {
     public void setup() {
         if (USE_FIREFOX) {
             FirefoxOptions options = new FirefoxOptions();
-            //options.addArguments("-headless");
+            options.addArguments("-headless");
             driver = new FirefoxDriver(options);
         } else {
             ChromeOptions options = new ChromeOptions();
@@ -65,7 +67,7 @@ public class CheckoutTest {
         homePage.open();
         homePage.confirmCookies();
 
-        homePage.startCheckout();
+        homePage.startCheckoutUsingButtonIndex(this.indx);
 
         CheckoutStepOne step1 = new CheckoutStepOne(driver);
         step1.fillTheFormAndContinue(name, surname, address, station, phone);
@@ -76,7 +78,8 @@ public class CheckoutTest {
         step2.confirmOrder();
 
 
-        Assert.assertTrue("Order was not captured", driver.findElement(By.xpath(".//*[text()='Заказ оформлен']")).isDisplayed());
+        Assert.assertTrue("Order was not captured",
+                driver.findElement(step2.getOrderResultsSelector()).isDisplayed());
         
 
     }

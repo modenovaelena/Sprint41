@@ -38,6 +38,10 @@ public class CheckoutStepTwo {
         driver.findElement(this.submitSelector).click();
     }
 
+    public By getOrderResultsSelector() {
+        return By.xpath(".//*[text()='Заказ оформлен']");
+    }
+
     public void confirmOrder() {
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(this.confirmOrderSelector));

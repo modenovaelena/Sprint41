@@ -59,8 +59,8 @@ public class ImportantQuestionsTest {
         homePage.confirmCookies();
         homePage.clickQuestionByName(this.question);
 
-        Assert.assertTrue("The element is not displayed", driver.findElement(By.xpath("//div[@class='accordion__button' and text() = '" +
-                this.question + "']/parent::div/parent::div/div[@class='accordion__panel']")).isDisplayed());
+        Assert.assertTrue("The question panel is not displayed",
+                driver.findElement(homePage.getQuestionPanelSelector(this.question)).isDisplayed());
     }
 
     @After
